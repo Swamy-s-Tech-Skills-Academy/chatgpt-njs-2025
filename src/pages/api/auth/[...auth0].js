@@ -1,34 +1,28 @@
-// import { handleAuth, handleLogin } from "@auth0/nextjs-auth0";
-
-// export default handleAuth({
-//     signup: handleLogin({ authorizationParams: { screen_hint: "signup" } }),
-// });
-
-// pages/api/auth/[...nextauth].js
+// pages/api/auth/[...auth0].js
 import { handleAuth, handleLogin, handleLogout } from "@auth0/nextjs-auth0";
 
 export default handleAuth({
-    login: handleLogin({
-        authorizationParams: {
-            screen_hint: "signup",
-        },
-        returnTo: "/profile",
-    }),
+    async login(req, res) {
+        try {
+            await handleLogin(req, res, {
+                authorizationParams: {
+                    screen_hint: req.query.signup === 'true' ? "signup" : undefined, // Conditional screen_hint
+                },
+                returnTo: "/profile",
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(error.status || 500).end(error.message);
+        }
+    },
 
-    signup: handleLogin({
-        authorizationParams: {
-            screen_hint: "signup",
-        },
-        returnTo: "/profile",
-    }),
-
-    logout: handleLogout({ returnTo: "/" }), // Redirect to home after logout
+    logout: handleLogout({ returnTo: "/" }),
 
     onError(req, error) {
         console.error(error);
         return {
             redirect: {
-                destination: '/error', // Redirect to an error page
+                destination: '/error',
                 permanent: false,
             },
         };
