@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <>
       <div className="flex justify-center items-center min-h-screen w-full bg-gray-800 text-white text-center">
-        <div className="m-auto">
+        <div>
           {user ? (
             <div className='bg-gray-600 shadow-md rounded-md p-10 m-5'>
               {/* <h1>Welcome {user.name}!</h1> */}
