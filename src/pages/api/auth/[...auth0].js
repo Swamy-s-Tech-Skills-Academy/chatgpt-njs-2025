@@ -8,7 +8,7 @@ export default handleAuth({
                 authorizationParams: {
                     screen_hint: req.query.signup === 'true' ? "signup" : undefined, // Conditional screen_hint
                 },
-                returnTo: "/profile",
+                returnTo: "/chat", // Return to chat page after login
             });
         } catch (error) {
             console.error(error);
