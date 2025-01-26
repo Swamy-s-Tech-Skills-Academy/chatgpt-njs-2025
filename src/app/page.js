@@ -12,20 +12,22 @@ export default function Home() {
   if (error) return <div>{error.message}</div>;
 
   return (
-    <div>
-      <p>Welcome to the Next JS &amp; ChatGPT Starter</p>
-
-      {user ? (
-        <div className='bg-gray-600 shadow-md rounded-md p-10 m-5'>
-          <h1>Welcome {user.name}!</h1>
-          <Link href="/api/auth/logout" className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600">Logout</Link>
+    <>
+      <div className="flex justify-center items-center min-h-screen w-full bg-gray-800 text-white text-center">
+        <div className="m-auto">
+          {user ? (
+            <div className='bg-gray-600 shadow-md rounded-md p-10 m-5'>
+              {/* <h1>Welcome {user.name}!</h1> */}
+              <Link href="/api/auth/logout" className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600">Logout</Link>
+            </div>
+          ) : (
+            <>
+              <Link href="/api/auth/login" className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600">Login</Link>
+              <Link href="/api/auth/signup" className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600">Signup</Link>
+            </>
+          )}
         </div>
-      ) : (
-        <>
-          <Link href="/api/auth/login" className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600">Login</Link>
-          <Link href="/api/auth/signup" className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600">Signup</Link>
-        </>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
