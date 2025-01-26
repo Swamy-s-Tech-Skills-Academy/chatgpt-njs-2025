@@ -17,7 +17,6 @@ export default function Home() {
         <div>
           {user ? (
             <div className='bg-gray-600 shadow-md rounded-md p-10 m-5'>
-              {/* <h1>Welcome {user.name}!</h1> */}
               <Link href="/api/auth/logout" className="rounded-md bg-emerald-500 px-4 py-2 text-white hover:bg-emerald-600">Logout</Link>
             </div>
           ) : (
