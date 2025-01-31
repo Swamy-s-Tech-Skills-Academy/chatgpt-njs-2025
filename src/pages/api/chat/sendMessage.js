@@ -39,11 +39,11 @@ const handler = async (req) => {
             {
                 headers: {
                     "content-type": "application/json",
-                    Authorization: `Bearer ${process.env.OPENAI_API_KEY_V1}`,
+                    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
                 },
                 method: "POST",
                 body: JSON.stringify({
-                    model: "gpt-3.5-turbo-16k",
+                    model: "gpt-4o",
                     messages: [
                         initialChatMessage,
                         { "role": "user", "content": message }
