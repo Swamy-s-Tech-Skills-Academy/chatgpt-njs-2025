@@ -13,7 +13,7 @@ const handler = async (req) => {
         const initialChatMessage = {
             role: "system",
             content:
-                "Your name is Chatty Pete. An incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by WebDevEducation. Your response must be formatted as markdown.",
+                "Your name is Chatty AI Assistant. An incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by WebDevEducation. Your response must be formatted as markdown.",
         };
 
         const response = await fetch(`${req.headers.get("origin")}/api/chat/createNewChat`, {
@@ -113,7 +113,7 @@ export default handler;
 //         const initialChatMessage = {
 //             role: "system",
 //             content:
-//                 "Your name is Chatty Pete. An incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by WebDevEducation. Your response must be formatted as markdown.",
+//                 "Your name is Chatty AI Assistant. An incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by WebDevEducation. Your response must be formatted as markdown.",
 //         };
 
 //         let newChatId;
