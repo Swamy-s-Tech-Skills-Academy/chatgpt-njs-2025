@@ -10,11 +10,11 @@ const handler = async (req) => {
         const { message } = await req.json();
         console.log("Received message: ", message);
 
-        // const initialChatMessage = {
-        //     role: "system",
-        //     content:
-        //         "Your name is Chatty AI Assistant. An incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by WebDevEducation. Your response must be formatted as markdown.",
-        // };
+        const initialChatMessage = {
+            role: "system",
+            content:
+                "Your name is Chatty AI Assistant. An incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by WebDevEducation. Your response must be formatted as markdown.",
+        };
 
         // const response = await fetch(`${req.headers.get("origin")}/api/chat/createNewChat`, {
         //     method: "POST",

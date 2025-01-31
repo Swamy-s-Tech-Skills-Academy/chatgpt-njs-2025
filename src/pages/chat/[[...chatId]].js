@@ -2,6 +2,7 @@ import { ChatSidebar } from "@/components/ChatSidebar";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { streamReader } from "openai-edge-stream";
 
 export default function ChatPage({ chatId, title, messages = [] }) {
 
@@ -46,36 +47,36 @@ export default function ChatPage({ chatId, title, messages = [] }) {
     // console.log("Message sent: ", messageText);
     // setMessageText("");
 
-    // const response = await fetch(`/api/chat/sendMessage`, {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({ message: messageText }),
-    // });
+    const response = await fetch(`/api/chat/sendMessage`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ message: messageText }),
+    });
 
-    // console.log("Received Response: ", response);
-    // if (!response.ok) {
-    //   throw new Error(`Server error: ${response.statusText}`);
-    // }
+    console.log("Received Response: ", response);
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.statusText}`);
+    }
 
-    // const data = response.body;
+    const data = response.body;
 
-    // if (!data) {
-    //   console.error("No data received");
-    //   return;
-    // }
+    if (!data) {
+      console.error("No data received");
+      return;
+    }
 
-    // const reader = data.getReader();
-    // await streamReader(reader, async (message) => {
-    //   console.log("MESSAGE: ", message);
+    const reader = data.getReader();
+    await streamReader(reader, async (message) => {
+      console.log("MESSAGE: ", message);
 
-    //   if (message.event === "newChatId") {
-    //     setNewChatId(message.content);
-    //   } else {
-    //     setIncomingMessage((s) => `${s}${message.content}`);
-    //   }
-    // });
+      // if (message.event === "newChatId") {
+      //   setNewChatId(message.content);
+      // } else {
+      //   setIncomingMessage((s) => `${s}${message.content}`);
+      // }
+    });
 
     setGeneratingResponse(false);
   };
