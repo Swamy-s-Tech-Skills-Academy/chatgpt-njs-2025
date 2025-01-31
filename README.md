@@ -2,6 +2,14 @@
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Zip Fils
+
+```text
+zip -r my-nextjs-project.zip my-nextjs-project -x "node_modules/*"
+Get-ChildItem -Path . -Recurse -File | Where-Object { $_.FullName -notmatch '\\(node_modules|\.next|\.git|\.github)\\' } | Compress-Archive -DestinationPath nextjs-project.zip -Force
+
+```
+
 ## Few Commands
 
 ```powershell
