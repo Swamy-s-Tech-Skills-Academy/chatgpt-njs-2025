@@ -74,7 +74,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
       // if (message.event === "newChatId") {
       //   setNewChatId(message.content);
       // } else {
-      //   setIncomingMessage((s) => `${s}${message.content}`);
+        setIncomingMessage((s) => `${s}${message.content}`);
       // }
     });
 
@@ -93,7 +93,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         <div className="flex flex-col overflow-hidden bg-gray-700 text-white">
           <div className="bg-gray-600 text-white">Header</div>
           <div className='flex-1 text-white'>
-            Messages will be displayed here ...
+            {incomingMessage && <div>{incomingMessage}</div>}
             {/* {allMessages.map(message => (
               <Message key={message._id} role={message.role} content={message.content} />
             ))}
