@@ -13,37 +13,37 @@ const handler = async (req) => {
         const initialChatMessage = {
             role: "system",
             content:
-                "Your name is Chatty Pete. An incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by WebDevEducation. Your response must be formatted as markdown.",
+                "Your name is Chatty AI Assistant. An incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by WebDevEducation. Your response must be formatted as markdown.",
         };
 
-        const response = await fetch(`${req.headers.get("origin")}/api/chat/createNewChat`, {
-            method: "POST",
-            headers: {
-                "content-type": "application/json",
-                cookie: req.headers.get("cookie"),
-            },
-            body: JSON.stringify({ message }),
-        });
+        // const response = await fetch(`${req.headers.get("origin")}/api/chat/createNewChat`, {
+        //     method: "POST",
+        //     headers: {
+        //         "content-type": "application/json",
+        //         cookie: req.headers.get("cookie"),
+        //     },
+        //     body: JSON.stringify({ message }),
+        // });
 
-        console.log("Received Response: ", response);
-        if (!response.ok) {
-            throw new Error(`Server error: ${response.statusText}`);
-        }
+        // console.log("Received Response: ", response);
+        // if (!response.ok) {
+        //     throw new Error(`Server error: ${response.statusText}`);
+        // }
 
-        const jsonData = await response.json();
-        console.log("JSON DATA: ", jsonData);
-        const chatId = jsonData._id;
+        // const jsonData = await response.json();
+        // console.log("JSON DATA: ", jsonData);
+        // const chatId = jsonData._id;
 
         const stream = await OpenAIEdgeStream(
             "https://api.openai.com/v1/chat/completions",
             {
                 headers: {
                     "content-type": "application/json",
-                    Authorization: `Bearer ${process.env.OPENAI_API_KEY_V1}`,
+                    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
                 },
                 method: "POST",
                 body: JSON.stringify({
-                    model: "gpt-3.5-turbo-16k",
+                    model: "gpt-4o",
                     messages: [
                         initialChatMessage,
                         { "role": "user", "content": message }
@@ -52,26 +52,26 @@ const handler = async (req) => {
                 }),
             },
             {
-                onBeforeStream: ({ emit }) => {
-                    emit(chatId, "newChatId");
-                },
-                onAfterStream: async ({ fullContent }) => {
-                    await fetch(
-                        `${req.headers.get("origin")}/api/chat/addMessageToChat`,
-                        {
-                            method: "POST",
-                            headers: {
-                                "content-type": "application/json",
-                                cookie: req.headers.get("cookie"),
-                            },
-                            body: JSON.stringify({
-                                chatId,
-                                role: "assistant",
-                                content: fullContent,
-                            }),
-                        }
-                    );
-                },
+                // onBeforeStream: ({ emit }) => {
+                //     emit(chatId, "newChatId");
+                // },
+                // onAfterStream: async ({ fullContent }) => {
+                //     await fetch(
+                //         `${req.headers.get("origin")}/api/chat/addMessageToChat`,
+                //         {
+                //             method: "POST",
+                //             headers: {
+                //                 "content-type": "application/json",
+                //                 cookie: req.headers.get("cookie"),
+                //             },
+                //             body: JSON.stringify({
+                //                 chatId,
+                //                 role: "assistant",
+                //                 content: fullContent,
+                //             }),
+                //         }
+                //     );
+                // },
             }
         );
 
@@ -113,7 +113,7 @@ export default handler;
 //         const initialChatMessage = {
 //             role: "system",
 //             content:
-//                 "Your name is Chatty Pete. An incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by WebDevEducation. Your response must be formatted as markdown.",
+//                 "Your name is Chatty AI Assistant. An incredibly intelligent and quick-thinking AI, that always replies with an enthusiastic and positive energy. You were created by WebDevEducation. Your response must be formatted as markdown.",
 //         };
 
 //         let newChatId;
