@@ -46,7 +46,8 @@ export default function ChatPage({ chatId, title, messages = [] }) {
       return newChatMessages;
     });
 
-    // console.log("Message sent: ", messageText);
+    console.log("Message sent: ", messageText);
+    // console.log("New Chat Messages: ", newChatMessages);
     // setMessageText("");
 
     const response = await fetch(`/api/chat/sendMessage`, {
@@ -83,7 +84,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
     setGeneratingResponse(false);
   };
 
-  const allMessages = [...messages, ...newChatMessages];
+  // const allMessages = [...messages, ...newChatMessages];
 
   return (
     <>
@@ -94,11 +95,11 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         <ChatSidebar />
         <div className="flex flex-col overflow-hidden bg-gray-700 text-white">
           <div className="bg-gray-600 text-white">Header</div>
-          <div className='flex-1 text-white'>
+          <div className='flex-1 text-white overflow-scroll'>
 
-            {newChatMessages.map((message) => {
+            {newChatMessages.map((message) => (
               <Message key={message._id} role={message.role} content={message.content} />
-            })}
+            ))}
 
             {!!incomingMessage && (<Message role="assistant" content={incomingMessage} />)}
 
