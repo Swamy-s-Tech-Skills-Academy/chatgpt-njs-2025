@@ -3,6 +3,8 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { streamReader } from "openai-edge-stream";
+import { v4 as uuid } from "uuid";
+import { Message } from "@/components/Message";
 
 export default function ChatPage({ chatId, title, messages = [] }) {
 
@@ -93,12 +95,17 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         <div className="flex flex-col overflow-hidden bg-gray-700 text-white">
           <div className="bg-gray-600 text-white">Header</div>
           <div className='flex-1 text-white'>
-            {incomingMessage && <div>{incomingMessage}</div>}
+
+            {newChatMessages.map((message) => {
+              <Message key={message._id} role={message.role} content={message.content} />
+            })}
+
+            {!!incomingMessage && (<Message role="assistant" content={incomingMessage} />)}
+
             {/* {allMessages.map(message => (
               <Message key={message._id} role={message.role} content={message.content} />
-            ))}
+            ))} */}
 
-            {!!incomingMessage && (<Message role="assistant" content={incomingMessage} />)} */}
           </div>
           <footer className='bg-gray-800 p-10 text-white'>
             <form onSubmit={handleSubmit}>
