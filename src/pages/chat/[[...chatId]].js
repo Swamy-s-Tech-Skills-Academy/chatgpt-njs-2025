@@ -31,18 +31,18 @@ export default function ChatPage({ chatId, title, messages = [] }) {
 
     setGeneratingResponse(true);
 
-    // setNewChatMessages((prev) => {
-    //   const newChatMessages = [
-    //     ...prev,
-    //     {
-    //       _id: uuid(),
-    //       role: "user",
-    //       content: messageText,
-    //     },
-    //   ];
+    setNewChatMessages((prev) => {
+      const newChatMessages = [
+        ...prev,
+        {
+          _id: uuid(),
+          role: "user",
+          content: messageText,
+        },
+      ];
 
-    //   return newChatMessages;
-    // });
+      return newChatMessages;
+    });
 
     // console.log("Message sent: ", messageText);
     // setMessageText("");
@@ -74,7 +74,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
       // if (message.event === "newChatId") {
       //   setNewChatId(message.content);
       // } else {
-        setIncomingMessage((s) => `${s}${message.content}`);
+      setIncomingMessage((s) => `${s}${message.content}`);
       // }
     });
 
