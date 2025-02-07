@@ -3,6 +3,8 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { streamReader } from "openai-edge-stream";
+import { v4 as uuid } from "uuid";
+import { Message } from "@/components/Message";
 
 export default function ChatPage({ chatId, title, messages = [] }) {
 
@@ -31,20 +33,21 @@ export default function ChatPage({ chatId, title, messages = [] }) {
 
     setGeneratingResponse(true);
 
-    // setNewChatMessages((prev) => {
-    //   const newChatMessages = [
-    //     ...prev,
-    //     {
-    //       _id: uuid(),
-    //       role: "user",
-    //       content: messageText,
-    //     },
-    //   ];
+    setNewChatMessages((prev) => {
+      const newChatMessages = [
+        ...prev,
+        {
+          _id: uuid(),
+          role: "user",
+          content: messageText,
+        },
+      ];
 
-    //   return newChatMessages;
-    // });
+      return newChatMessages;
+    });
 
-    // console.log("Message sent: ", messageText);
+    console.log("Message sent: ", messageText);
+    // console.log("New Chat Messages: ", newChatMessages);
     // setMessageText("");
 
     const response = await fetch(`/api/chat/sendMessage`, {
@@ -74,14 +77,14 @@ export default function ChatPage({ chatId, title, messages = [] }) {
       // if (message.event === "newChatId") {
       //   setNewChatId(message.content);
       // } else {
-        setIncomingMessage((s) => `${s}${message.content}`);
+      setIncomingMessage((s) => `${s}${message.content}`);
       // }
     });
 
     setGeneratingResponse(false);
   };
 
-  const allMessages = [...messages, ...newChatMessages];
+  // const allMessages = [...messages, ...newChatMessages];
 
   return (
     <>
@@ -92,13 +95,18 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         <ChatSidebar />
         <div className="flex flex-col overflow-hidden bg-gray-700 text-white">
           <div className="bg-gray-600 text-white">Header</div>
-          <div className='flex-1 text-white'>
-            {incomingMessage && <div>{incomingMessage}</div>}
-            {/* {allMessages.map(message => (
+          <div className='flex-1 text-white overflow-scroll'>
+
+            {newChatMessages.map((message) => (
               <Message key={message._id} role={message.role} content={message.content} />
             ))}
 
-            {!!incomingMessage && (<Message role="assistant" content={incomingMessage} />)} */}
+            {!!incomingMessage && (<Message role="assistant" content={incomingMessage} />)}
+
+            {/* {allMessages.map(message => (
+              <Message key={message._id} role={message.role} content={message.content} />
+            ))} */}
+
           </div>
           <footer className='bg-gray-800 p-10 text-white'>
             <form onSubmit={handleSubmit}>
