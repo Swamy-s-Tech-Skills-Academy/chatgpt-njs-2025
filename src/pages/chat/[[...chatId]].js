@@ -47,8 +47,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
     });
 
     console.log("Message sent: ", messageText);
-    // console.log("New Chat Messages: ", newChatMessages);
-    // setMessageText("");
+    setMessageText("");
 
     const response = await fetch(`/api/chat/sendMessage`, {
       method: "POST",

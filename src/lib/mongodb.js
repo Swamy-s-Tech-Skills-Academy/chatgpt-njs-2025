@@ -7,8 +7,7 @@ if (!MONGODB_URI) {
 }
 
 const options = {
-  tls: true, // Ensure TLS/SSL is used
-  sslValidate: false, // Disable certificate validation if needed
+  tls: true // Ensure TLS/SSL is used
 };
 
 let client;
