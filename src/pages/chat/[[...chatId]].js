@@ -47,8 +47,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
     });
 
     console.log("Message sent: ", messageText);
-    // console.log("New Chat Messages: ", newChatMessages);
-    // setMessageText("");
+    setMessageText("");
 
     const response = await fetch(`/api/chat/sendMessage`, {
       method: "POST",
@@ -95,18 +94,13 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         <ChatSidebar />
         <div className="flex flex-col overflow-hidden bg-gray-700 text-white">
           <div className="bg-gray-600 text-white">Header</div>
-          <div className='flex-1 text-white overflow-scroll'>
+          <div className='flex-1 text-white overflow-auto'>
 
             {newChatMessages.map((message) => (
               <Message key={message._id} role={message.role} content={message.content} />
             ))}
 
             {!!incomingMessage && (<Message role="assistant" content={incomingMessage} />)}
-
-            {/* {allMessages.map(message => (
-              <Message key={message._id} role={message.role} content={message.content} />
-            ))} */}
-
           </div>
           <footer className='bg-gray-800 p-10 text-white'>
             <form onSubmit={handleSubmit}>
