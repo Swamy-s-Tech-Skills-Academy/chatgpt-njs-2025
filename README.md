@@ -7,7 +7,6 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ```text
 zip -r my-nextjs-project.zip my-nextjs-project -x "node_modules/*"
 Get-ChildItem -Path . -Recurse -File | Where-Object { $_.FullName -notmatch '\\(node_modules|\.next|\.git|\.github)\\' } | Compress-Archive -DestinationPath nextjs-project.zip -Force
-
 ```
 
 ## Few Commands
@@ -57,8 +56,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 To learn more about Next.js, take a look at the following resources:
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> 1. [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+> 1. [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
