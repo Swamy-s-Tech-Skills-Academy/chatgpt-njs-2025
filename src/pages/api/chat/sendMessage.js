@@ -52,9 +52,9 @@ const handler = async (req) => {
                 }),
             },
             {
-                // onBeforeStream: ({ emit }) => {
-                //     emit(chatId, "newChatId");
-                // },
+                onBeforeStream: ({ emit }) => {
+                    emit(chatId, "newChatId");
+                },
                 onAfterStream: async ({ fullContent }) => {
                     await fetch(
                         `${req.headers.get("origin")}/api/chat/addMessageToChat`,
