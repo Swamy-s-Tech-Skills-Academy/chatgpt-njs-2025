@@ -73,11 +73,11 @@ export default function ChatPage({ chatId, title, messages = [] }) {
     await streamReader(reader, async (message) => {
       console.log("MESSAGE: ", message);
 
-      // if (message.event === "newChatId") {
-      //   setNewChatId(message.content);
-      // } else {
-      setIncomingMessage((s) => `${s}${message.content}`);
-      // }
+      if (message.event === "newChatId") {
+        setNewChatId(message.content);
+      } else {
+        setIncomingMessage((s) => `${s}${message.content}`);
+      }
     });
 
     setGeneratingResponse(false);
