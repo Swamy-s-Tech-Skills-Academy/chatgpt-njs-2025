@@ -8,7 +8,8 @@ import { Message } from "@/components/Message";
 
 export default function ChatPage({ chatId, title, messages = [] }) {
 
-  console.log("props: ", title, messages);
+  console.log("Inside ChatPage -> props: ", title, messages);
+
   const [incomingMessage, setIncomingMessage] = useState("");
   const [messageText, setMessageText] = useState("");
   const [newChatMessages, setNewChatMessages] = useState([]);
@@ -20,8 +21,12 @@ export default function ChatPage({ chatId, title, messages = [] }) {
 
   // if we've created a new chat
   useEffect(() => {
+    console.log("inside useEffect() -> New Chat ID: ", newChatId, " Generating Response: ", generatingResponse);
+
     if (!generatingResponse && newChatId) {
       setNewChatId(null);
+
+      console.log("Pushing to new chat: ", newChatId, `/chat/${newChatId}`);
       router.push(`/chat/${newChatId}`);
     }
   }, [newChatId, generatingResponse, router]);
@@ -126,48 +131,51 @@ export default function ChatPage({ chatId, title, messages = [] }) {
 
 export const getServerSideProps = async (ctx) => {
   const chatId = ctx.params?.chatId?.[0] || null;
+  console.log("Inside getServerSideProps -> Chat ID: ", chatId);
 
-  if (chatId) {
-    let objectId;
+  // if (chatId) {
+  //   let objectId;
 
-    try {
-      objectId = new ObjectId(chatId);
-    } catch (e) {
-      return {
-        redirect: {
-          destination: "/chat",
-        },
-      };
-    }
+  //   try {
+  //     objectId = new ObjectId(chatId);
+  //   } catch (e) {
+  //     return {
+  //       redirect: {
+  //         destination: "/chat",
+  //       },
+  //     };
+  //   }
 
-    const { user } = await getSession(ctx.req, ctx.res);
-    const client = await clientPromise;
-    const db = client.db("ChattyPete");
-    const chat = await db.collection("chats").findOne({
-      userId: user.sub,
-      _id: objectId,
-    });
+  //   const { user } = await getSession(ctx.req, ctx.res);
+  //   const client = await clientPromise;
+  //   const db = client.db("ChattyPete");
+  //   const chat = await db.collection("chats").findOne({
+  //     userId: user.sub,
+  //     _id: objectId,
+  //   });
 
-    if (!chat) {
-      return {
-        redirect: {
-          destination: "/chat",
-        },
-      };
-    }
+  //   if (!chat) {
+  //     return {
+  //       redirect: {
+  //         destination: "/chat",
+  //       },
+  //     };
+  //   }
 
-    return {
-      props: {
-        chatId,
-        title: chat.title,
-        messages: chat.messages.map((message) => ({
-          ...message,
-          _id: uuid(),
-        })),
-      },
-    };
-  }
+  //   return {
+  //     props: {
+  //       chatId,
+  //       title: chat.title,
+  //       messages: chat.messages.map((message) => ({
+  //         ...message,
+  //         _id: uuid(),
+  //       })),
+  //     },
+  //   };
+  // }
   return {
-    props: {},
+    props: {
+      chatId,
+    },
   };
 };
