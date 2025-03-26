@@ -91,7 +91,7 @@ export default function ChatPage({ chatId, title, messages = [] }) {
         <title>New Chat</title>
       </Head>
       <div className="grid h-screen grid-cols-[260px_1fr]">
-        <ChatSidebar />
+        <ChatSidebar chatId={chatId} />
         <div className="flex flex-col overflow-hidden bg-gray-700 text-white">
           <div className="bg-gray-600 text-white">Header</div>
           <div className='flex-1 text-white overflow-auto'>
@@ -122,3 +122,52 @@ export default function ChatPage({ chatId, title, messages = [] }) {
     </>
   );
 }
+
+
+export const getServerSideProps = async (ctx) => {
+  const chatId = ctx.params?.chatId?.[0] || null;
+
+  if (chatId) {
+    let objectId;
+
+    try {
+      objectId = new ObjectId(chatId);
+    } catch (e) {
+      return {
+        redirect: {
+          destination: "/chat",
+        },
+      };
+    }
+
+    const { user } = await getSession(ctx.req, ctx.res);
+    const client = await clientPromise;
+    const db = client.db("ChattyPete");
+    const chat = await db.collection("chats").findOne({
+      userId: user.sub,
+      _id: objectId,
+    });
+
+    if (!chat) {
+      return {
+        redirect: {
+          destination: "/chat",
+        },
+      };
+    }
+
+    return {
+      props: {
+        chatId,
+        title: chat.title,
+        messages: chat.messages.map((message) => ({
+          ...message,
+          _id: uuid(),
+        })),
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+};
