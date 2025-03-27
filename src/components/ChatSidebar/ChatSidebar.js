@@ -6,7 +6,12 @@ import { useEffect, useState } from "react";
 export const ChatSidebar = ({ chatId }) => {
   const [chatList, setChatList] = useState([]);
 
+  console.log("Inside Chat Sidebar -> Chat ID Received: ", chatId);
+
   useEffect(() => {
+
+    console.log("Inside Chat Sidebar -> Chat ID: ", chatId);
+
     const loadChatList = async () => {
       const response = await fetch(`/api/chat/getChatList`, {
         method: "POST",
